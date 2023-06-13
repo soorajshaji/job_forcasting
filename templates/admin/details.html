@@ -1,0 +1,482 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- index.html  21 Nov 2019 03:44:50 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Job Forcasting</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{% static 'admin/css/app.min.css'%}">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{% static 'admin/css/style.css'%}">
+  <link rel="stylesheet" href="{% static 'admin/css/components.css'%}">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="{% static 'admin/css/custom.css'%}">
+  <link rel='shortcut icon' type='image/x-icon' href='admin/img/favicon.ico' />
+  <style>
+
+    .test {
+        white-space: nowrap; /* prevent wrapping of text */
+        overflow: hidden; /* hide the overflow */
+        text-overflow: ellipsis; /* add ellipsis if the text is too long */
+      }
+      .blinking-cursor {
+        margin-left: 5px;
+        background-color: #fff;
+        animation: blink 1s infinite;
+      }
+      @keyframes blink {
+        0%, 50% {
+          opacity: 1;
+        }
+        50.1%, 100% {
+          opacity: 0;
+        }
+      }
+
+     
+        #search-results {
+          list-style-type: none;
+          background-color: #fff;
+          
+          box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+          border-radius: 5px;
+          padding: 0;
+          cursor: pointer;
+          
+          
+        }
+        #search-results li{
+          color:black;
+          padding-left: 10px;
+          padding-top:20px;
+          
+          
+          
+        }
+    
+      </style>
+</head>
+
+<body class="sidebar-mini">
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar sticky">
+        <div class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
+									collapse-btn"> <i data-feather="align-justify"></i></a></li>
+            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i data-feather="maximize"></i>
+              </a></li>
+            <li>
+              <form class="form-inline mr-auto" style="position:absolute;" >
+                <div class="search-element" >
+                  <input class="form-control" type="search" id="search" placeholder="Search" aria-label="Search" data-width="200">
+                  
+                  <button class="btn" type="submit">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <ul  id="search-results"></ul>
+                </div>
+              </form>
+            </li>
+          </ul>
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal"
+        data-target="#exampleModalCenter">Categories 
+        </button>
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" data-toggle="dropdown"
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user">  <i style="color:black" class="fas fa-user"></i><span class="d-sm-none d-lg-inline-block"></span></a>
+            <div class="dropdown-menu dropdown-menu-right pullDown">
+              <div class="dropdown-title">Hello {{user.first_name}} {{user.last_name}}</div>
+              
+              <div class="dropdown-divider"></div>
+              <a href="{% url 'loginout' %}" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            
+          </div>
+          <ul class="sidebar-menu">
+            <li class="menu-header">Main</li>
+            <li class="dropdown active">
+              <a href="index.html" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
+            </li>
+          </ul>
+        </aside>
+      </div>
+              <!-- Vertically Center -->
+              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Categories</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    {% for i in  career_category %}
+                  
+                    <a href="{% url 'find' %}?param={{i|urlencode}}" class="dropdown-item has-icon"> {{i}}</a>
+                    {% endfor %}
+                  </div>
+                  <div class="modal-footer bg-whitesmoke br">
+                  </div>
+                </div>
+              </div>
+            </div>
+      <!-- Main Content -->
+            <!-- Main Content -->
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myLargeModalLabel">Categories</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  {% for i in  career_category %}
+                  
+                  <a href="{% url 'find' %}?param={{i|urlencode}}" class="dropdown-item has-icon"> {{i}}</a>
+                  {% endfor %}
+
+                </div>
+              </div>
+            </div>
+          </div>
+      <div class="main-content">
+        <section class="section">
+
+
+          <div class="row">
+            <div class="col-12 col-sm-12 col-lg-12">
+              <div class="card ">
+                <div class="card-header ">
+                  <h4  style="text-align:center;">{{job}}</h4>
+                  
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                      <canvas id="line-chart"></canvas> <br> <br>
+                    </div>
+                    <div class="col-lg-2">
+                      
+                      {% if trend_value > 0 %}
+                      <p class="mb-0"><span class="col-green">{{change}}%</span> 
+                        <svg style="height:24px;width:24px;color:green;padding-bottom:5px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                        </svg> 
+                        <svg style="height:24px;width:24px;color:orange;padding-bottom:5px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                          <path fill-rule="evenodd" d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z" clip-rule="evenodd" />
+                        </svg>
+                        
+                      {% elif trend_value == 0 and change > 0  %}
+                        <p class="mb-0"><span class="col-green">{{change}}%</span> 
+                          <svg style="height:24px;width:24px;color:green;padding-bottom:5px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                          </svg> <br>
+                      {% else %}
+                      <p class="mb-0"><span class="co-green" style="color:red;">{{change}}%</span>
+                        
+                        <svg style="height:24px;width:24px;color:red;padding-bottom:5px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" />
+                        </svg>
+                        
+                      {% endif %}
+                    </div>
+                    <!--<div class="col-lg-3">
+                      <div class="row mt-5">
+
+                          {% for key, value in predicted_job.items %}
+                          <div class="col-7 col-xl-7 mb-3">{{key}}</div>
+                          <div class="col-5 col-xl-5 mb-3">
+                            <span class="text-big">{{value}}</span>
+                          </div>
+                          {% endfor %}
+                      </div>
+                    </div>-->
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      
+                        <p id="typewriter"></p>
+                        <!--<pre>
+                            <p style="font-size:13px;">{{job_details.details}}</p>
+                        </pre>-->
+                     
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!--<div class="row">
+            <div class="col-12 col-sm-12 col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Chart</h4>
+                </div>
+                <div class="card-body">
+                  <div id="chart4" class="chartsh"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Chart</h4>
+                </div>
+                <div class="card-body">
+                  <div class="summary">
+                    <div class="summary-chart active" data-tab-group="summary-tab" id="summary-chart">
+                      <div id="chart3" class="chartsh"></div>
+                    </div>
+                    <div data-tab-group="summary-tab" id="summary-text">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Chart</h4>
+                </div>
+                <div class="card-body">
+                  <div id="chart2" class="chartsh"></div>
+                </div>
+              </div>
+            </div>
+          </div>-->
+          
+        </section>
+
+      </div>
+      <footer class="main-footer">
+        <div class="footer-left">
+          <a href=".net"></a></a>
+        </div>
+        <div class="footer-right">
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="{% static 'admin/js/app.min.js'%}"></script>
+  <!-- JS Libraies -->
+  <script src="{% static 'admin/bundles/apexcharts/apexcharts.min.js'%}"></script>
+  <script src="{% static 'admin/bundles/chartjs/chart.min.js'%}"></script>
+  <!-- Page Specific JS File -->
+  <script src="{%static 'admin/js/page/chart-chartjs.js'%}"></script>
+  {%
+  %}
+  <script>
+
+    // Sample list of data
+    let data = {{all_job|safe}}
+   {% comment %} var data = ["Apple", "Banana", "Orange", "Mango", "Pineapple", "Grapes"]; {% endcomment %}
+
+    // Get references to the input and results elements
+    var searchInput = document.getElementById('search');
+    var searchResults = document.getElementById('search-results');
+
+    // Event listener for keyup event on the search input
+    
+    searchInput.addEventListener('keyup', function () {
+      var searchTerm = searchInput.value.toLowerCase();
+      searchResults.innerHTML = '';
+      if (searchTerm.length < 1) {
+        searchResults.style.display = 'none';
+      }
+
+      // Filter the data based on the search term
+      var filteredData = data.filter(function (item) {
+        if (searchTerm.length > 0) {
+          searchResults.style.display = 'block';
+        }
+        
+        return item.toLowerCase().includes(searchTerm);
+      });
+
+      // Display the filtered results
+      filteredData.forEach(function (item) {
+        var li = document.createElement('li');
+        li.textContent = item;
+
+        // Event listener for click event on search results
+        li.addEventListener('click', function () {
+          // Clear previous selection
+          var selectedItems = searchResults.getElementsByClassName('selected');
+          Array.from(selectedItems).forEach(function (item) {
+            item.classList.remove('selected');
+          });
+
+          // Add selected class to clicked item
+          li.classList.add('selected');
+
+          
+          window.location.href = "{% url 'details' %}?param="+li.textContent;
+
+          // Perform the desired action with the selected item
+          searchInput.value = li.textContent;
+          searchResults.style.display = 'none';
+        });
+        searchResults.appendChild(li);
+      });
+    });
+  </script>
+
+  <script>
+    predicted_job = '{{single_graph}}'
+    job_name = '{{job}}'
+    console.log(predicted_job)
+
+    let data_job_1 = JSON.parse(predicted_job);
+
+    let data_job = []
+    for(let i = 0; i < data_job_1.length; i++){
+      data_job.push(Math.round(data_job_1[i]))
+    }
+    let max = Math.max(...data_job)
+    let min = Math.min(...data_job)
+
+    max = max + 3000   
+    var ctx = document.getElementById("line-chart");
+if (ctx) {
+	ctx.height = 150;
+	var myChart = new Chart(ctx, {
+		type: 'lineShadow',
+		data: {
+			labels: ["2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022","2023","2024","2025","2026","2027"],
+  
+			type: 'line',
+			defaultFontFamily: 'Poppins',
+			datasets: [{
+				label: job_name,
+				data: data_job,
+				backgroundColor: 'transparent',
+				borderColor: '#f96332',
+				borderWidth: 2,
+				pointStyle: 'circle',
+				pointRadius: 3,
+				pointBorderColor: 'transparent',
+				pointBackgroundColor: '#f96332',
+			}]
+		},
+		options: {
+			responsive: true,
+			tooltips: {
+				mode: 'index',
+				titleFontSize: 12,
+				titleFontColor: '#000',
+				bodyFontColor: '#000',
+				backgroundColor: '#fff',
+				titleFontFamily: 'Poppins',
+				bodyFontFamily: 'Poppins',
+				cornerRadius: 3,
+				intersect: false,
+			},
+			legend: {
+				display: false,
+				labels: {
+					usePointStyle: true,
+					fontFamily: 'Poppins',
+				},
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+					gridLines: {
+						display: false,
+						drawBorder: false
+					},
+					scaleLabel: {
+						display: false,
+						labelString: 'Month'
+					},
+					ticks: {
+						fontFamily: "Poppins",
+						fontColor: "#9aa0ac", // Font Color
+					}
+				}],
+				yAxes: [{
+					display: true,
+					gridLines: {
+						display: false,
+						drawBorder: false
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Value',
+						fontFamily: "Poppins"
+
+					},
+					ticks: {
+						fontFamily: "Poppins",
+						fontColor: "#9aa0ac", // Font Color
+					}
+				}]
+			},
+			title: {
+				display: false,
+				text: 'Normal Legend'
+			}
+		}
+	});
+}
+
+  </script>
+
+
+
+  <script>
+    const text = '{{job_details|linebreaksbr}}'
+    console.log(text)
+    const typewriter = document.getElementById('typewriter');
+    let index = 0;
+    function type() {
+    if (index < text.length) {
+        typewriter.innerHTML = text.slice(0, index) + '<span class="blinking-cursor">|</span>';
+        index++;
+        setTimeout(type, Math.random() * 1 );
+        } else {
+        typewriter.innerHTML = text.slice(0, index) + '<span class="blinking-cursor">|</span>';
+        }
+    }
+    // start typing
+    type();
+    </script>
+  
+  <!-- Template JS File -->
+  <script src="{% static 'admin/js/scripts.js'%}"></script>
+  <!-- Custom JS File -->
+  <script src="{% static 'admin/js/custom.js'%}"></script>
+</body>
+
+
+<!-- index.html  21 Nov 2019 03:47:04 GMT -->
+</html>

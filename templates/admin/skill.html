@@ -1,0 +1,253 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- forms-advanced-form.html  21 Nov 2019 03:54:41 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Otika - Admin Dashboard Template</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{% static 'admin/css/app.min.css'%}">
+  <link rel="stylesheet" href="{% static 'admin/bundles/bootstrap-daterangepicker/daterangepicker.css'%}">
+  <link rel="stylesheet" href="{% static 'admin/bundles/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css'%}">
+  <link rel="stylesheet" href="{% static 'admin/bundles/select2/dist/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'admin/bundles/jquery-selectric/selectric.css'%}">
+  <link rel="stylesheet" href="{% static 'admin/bundles/bootstrap-timepicker/css/bootstrap-timepicker.min.css'%}">
+  <link rel="stylesheet" href="{% static 'admin/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.css'%}">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{% static 'admin/css/style.css'%}">
+  <link rel="stylesheet" href="{% static 'admin/css/components.css'%}">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="{% static 'admin/css/custom.css'%}">
+  <link rel='shortcut icon' type='image/x-icon' href='{% static 'admin/img/favicon.ico' %}' />
+
+  <style>
+    .select2 {
+      background:white;
+      border-radius: 30px;
+      box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1),0 0.9375rem 1.40625rem rgba(90,97,105,0.1),0 0.25rem 0.53125rem rgba(90,97,105,0.12),0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    }
+    </style>
+
+</head>
+
+<body class="sidebar-mini">
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar sticky">
+        <div class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
+									collapse-btn"> <i data-feather="align-justify"></i></a></li>
+            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i data-feather="maximize"></i>
+              </a></li>
+            <li>
+                <form class="form-inline mr-auto" style="position:absolute;" >
+                    <div class="search-element" >
+                      <input class="form-control" type="search" id="search" placeholder="Search" aria-label="Search" data-width="200">
+                      
+                      <button class="btn" type="submit">
+                        <i class="fas fa-search"></i>
+                      </button>
+                      <ul  id="search-results"></ul>
+                    </div>
+                  </form>
+            </li>
+          </ul>
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal"
+        data-target="#exampleModalCenter">Categories 
+        </button>
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" data-toggle="dropdown"
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user">  <i style="color:black" class="fas fa-user"></i> <span class="d-sm-none d-lg-inline-block"></span></a>
+            <div class="dropdown-menu dropdown-menu-right pullDown">
+              <div class="dropdown-title">Hello {{user.first_name}} {{user.last_name}}</div>
+              
+              <div class="dropdown-divider"></div>
+              <a href="{% url 'loginout' %}" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            
+          </div>
+          <ul class="sidebar-menu">
+            <li class="menu-header">Main</li>
+            <li class="dropdown active">
+              <a href="index.html" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
+            </li>
+          </ul>
+        </aside>
+      </div>
+              <!-- Vertically Center -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Categories</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    {% for i in  career_category %}
+                  
+                    <a href="{% url 'find' %}?param={{i|urlencode}}" class="dropdown-item has-icon"> {{i}}</a>
+                    {% endfor %}
+                  </div>
+                  <div class="modal-footer bg-whitesmoke br">
+                  </div>
+                </div>
+              </div>
+            </div>
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row" style="margin-top:40px;">
+              <div class="col-3">
+              </div>
+              <div class="col-8 col-md-6 col-lg-6">
+                <div class="form-group" >
+                  <label>Skills</label>
+                    <form action="{% url 'skill_details' %}" method="POST">
+                      {% csrf_token %}
+                      <select  class="form-control select2" multiple="" name="skill">
+                      </select>
+                      <br> <br>
+                      <div style="text-align:center;">
+                        <button  class="btn btn-primary" type="submit">Build Your Future</button>
+                      </div>
+                    </form>
+              </div>
+              <div class="col-2 ">
+              </div>
+
+              </div>
+             
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="{% static 'admin/js/app.min.js'%}"></script>
+  <!-- JS Libraies -->
+  <script src="{% static 'admin/bundles/cleave-js/dist/cleave.min.js'%}"></script>
+  <script src="{% static 'admin/bundles/cleave-js/dist/addons/cleave-phone.us.js'%}"></script>
+  <script src="{% static 'admin/bundles/jquery-pwstrength/jquery.pwstrength.min.js'%}"></script>
+  <script src="{% static 'admin/bundles/bootstrap-daterangepicker/daterangepicker.js'%}"></script>
+  <script src="{% static 'admin/bundles/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'%}"></script>
+  <script src="{% static 'admin/bundles/bootstrap-timepicker/js/bootstrap-timepicker.min.js'%}"></script>
+  <script src="{% static 'admin/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js'%}"></script>
+  <script src="{% static 'admin/bundles/select2/dist/js/select2.full.min.js'%}"></script>
+  <script src="{% static 'admin/bundles/jquery-selectric/jquery.selectric.min.js'%}"></script>
+  <!-- Page Specific JS File -->
+  <script src="{% static 'admin/js/page/forms-advanced-forms.js'%}"></script>
+  <!-- Template JS File -->
+  <script src="{% static 'admin/js/scripts.js'%}"></script>
+  <!-- Custom JS File -->
+  <script src="{% static 'admin/js/custom.js'%}"></script>
+
+  <script>
+    suitable_job_score = '{{suitable_job_score}}'
+    
+    suitable_job_score = suitable_job_score.replace(/&quot;/g, '"');
+    var newOptions = JSON.parse(suitable_job_score);
+
+    console.log(newOptions)
+    // Get the select element
+    var selectElement = document.querySelector('.select2');
+
+    // Create an array of new option values
+     
+
+    // Loop through the new option values and create <option> elements
+    newOptions.forEach(function(optionValue) {
+    var option = document.createElement('option');
+    option.textContent = optionValue;
+    selectElement.appendChild(option);
+    });
+
+
+
+
+
+    </script>
+
+  <script>
+
+    // Sample list of data
+    let data = {{all_job|safe}}
+   {% comment %} var data = ["Apple", "Banana", "Orange", "Mango", "Pineapple", "Grapes"]; {% endcomment %}
+
+    // Get references to the input and results elements
+    var searchInput = document.getElementById('search');
+    var searchResults = document.getElementById('search-results');
+
+    // Event listener for keyup event on the search input
+    
+    searchInput.addEventListener('keyup', function () {
+      var searchTerm = searchInput.value.toLowerCase();
+      searchResults.innerHTML = '';
+      if (searchTerm.length < 1) {
+        searchResults.style.display = 'none';
+      }
+
+      // Filter the data based on the search term
+      var filteredData = data.filter(function (item) {
+        if (searchTerm.length > 0) {
+          searchResults.style.display = 'block';
+        }
+        
+        return item.toLowerCase().includes(searchTerm);
+      });
+
+      // Display the filtered results
+      filteredData.forEach(function (item) {
+        var li = document.createElement('li');
+        li.textContent = item;
+
+        // Event listener for click event on search results
+        li.addEventListener('click', function () {
+          // Clear previous selection
+          var selectedItems = searchResults.getElementsByClassName('selected');
+          Array.from(selectedItems).forEach(function (item) {
+            item.classList.remove('selected');
+          });
+
+          // Add selected class to clicked item
+          li.classList.add('selected');
+
+          
+          window.location.href = "{% url 'details' %}?param="+li.textContent;
+
+          // Perform the desired action with the selected item
+          searchInput.value = li.textContent;
+          searchResults.style.display = 'none';
+        });
+        searchResults.appendChild(li);
+      });
+    });
+  </script>
+</body>
+
+
+<!-- forms-advanced-form.html  21 Nov 2019 03:55:08 GMT -->
+</html>

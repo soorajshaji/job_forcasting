@@ -1,0 +1,497 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- index.html  21 Nov 2019 03:44:50 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Job Forcasting</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{% static 'admin/css/app.min.css'%}">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{% static 'admin/css/style.css'%}">
+  <link rel="stylesheet" href="{% static 'admin/css/components.css'%}">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="{% static 'admin/css/custom.css'%}">
+  <link rel='shortcut icon' type='image/x-icon' href='admin/img/favicon.ico' />
+
+  <style>
+    #search-results {
+      list-style-type: none;
+      background-color: #fff;
+      
+      
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      border-radius: 5px;
+      padding: 0;
+      cursor: pointer;
+      
+      
+    }
+    #search-results li{
+      color:black;
+      padding-left: 10px;
+      padding-top:20px;
+      
+      
+      
+    }
+ 
+    
+    .search-form {
+      border-radius: 30px 0 0 30px;
+    }
+    
+    
+    
+    input-group-btn {
+      max-width:38px;
+}
+    .input-group{
+      background:white;
+      border-radius: 30px;
+      margin-bottom: 40px;
+      margin-top: 40px;
+      box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1),0 0.9375rem 1.40625rem rgba(90,97,105,0.1),0 0.25rem 0.53125rem rgba(90,97,105,0.12),0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    }
+    
+    #search {
+      border: 1px;
+    }
+    
+    .search-btn {
+      cursor:pointer;
+      border-radius: 0 30px 30px 0; 
+      background-color:#fff;
+      color:#669;
+      
+    }
+    
+    .text-center {
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body class="sidebar-mini">
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar sticky">
+        <div class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
+									collapse-btn"> <i data-feather="align-justify"></i></a></li>
+            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i data-feather="maximize"></i>
+              </a></li>
+            <li>
+              <form class="form-inline mr-auto" style="position:absolute;" >
+                <div class="search-element" >
+
+                </div>
+              </form>
+            </li>
+          </ul>
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal"
+        data-target="#exampleModalCenter">Categories 
+        </button>
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" data-toggle="dropdown"
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user">  <i style="color:black" class="fas fa-user"></i> <span class="d-sm-none d-lg-inline-block"></span></a>
+            <div class="dropdown-menu dropdown-menu-right pullDown">
+              <div class="dropdown-title">Hello {{user.first_name}} {{user.last_name}}</div>
+              
+              <div class="dropdown-divider"></div>
+              <a href="{% url 'loginout' %}" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            
+          </div>
+          <ul class="sidebar-menu">
+            <li class="menu-header">Main</li>
+            <li class="dropdown active">
+              <a href="index.html" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
+            </li>
+          </ul>
+        </aside>
+      </div>
+              <!-- Vertically Center -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Categories</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    {% for i in  career_category %}
+                  
+                    <a href="{% url 'find' %}?param={{i|urlencode}}" class="dropdown-item has-icon"> {{i}}</a>
+                    {% endfor %}
+                  </div>
+                  <div class="modal-footer bg-whitesmoke br">
+                  </div>
+                </div>
+              </div>
+            </div>
+      <!-- Main Content -->
+            <!-- Main Content -->
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myLargeModalLabel">Categories</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  {% for i in  career_category %}
+                  
+                  <a href="{% url 'find' %}?param={{i|urlencode}}" class="dropdown-item has-icon"> {{i}}</a>
+                  {% endfor %}
+
+                </div>
+              </div>
+            </div>
+          </div>
+      <div class="main-content">
+        <section class="section">
+          <!--<div class="row ">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">New Booking</h5>
+                          <h2 class="mb-3 font-18">258</h2>
+                          <p class="mb-0"><span class="col-green">10%</span> Increase</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="admin/img/banner/1.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15"> Customers</h5>
+                          <h2 class="mb-3 font-18">1,287</h2>
+                          <p class="mb-0"><span class="col-orange">09%</span> Decrease</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="admin/img/banner/2.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">New Project</h5>
+                          <h2 class="mb-3 font-18">128</h2>
+                          <p class="mb-0"><span class="col-green">18%</span>
+                            Increase</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="admin/img/banner/3.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Revenue</h5>
+                          <h2 class="mb-3 font-18">$48,697</h2>
+                          <p class="mb-0"><span class="col-green">42%</span> Increase</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="admin/img/banner/4.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>-->
+
+          <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+                <div id="content">
+                  <form class='form-inine' >
+                    <div class="input-group"  >
+                      <input  type='text' id='search' class="form-control search-form" placeholder="Search">
+                      <button  id="search-this"type="button" class="pull-right btn btn-default search-btn">
+                        <i class="fa fa-search"></i>
+                    </button>
+                      
+                      {% comment %} <span class="input-group-btn" style="width:39px;">
+
+                        
+                      </span> {% endcomment %}
+                      
+                    </div>
+                    <ul  id="search-results"></ul>
+                  </form>
+                  
+                   
+              </div>
+                
+              
+              
+            </div>
+            
+            <div class="col-2">
+            </div>
+          </div>
+          <div class="row " style="margin-top:20px;"><div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <a href="{% url 'overall' %}" style="text-decoration:none;color: inherit;">
+                    <div class="row ">
+                      
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                          <div class="card-content">
+                            <h5 class="font-15"> Overall</h5>
+                            <h2 class="mb-3 font-18">960+</h2>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                          <div class="banner-img">
+                            <img src="{% static 'admin/img/banner/2.png'%}" alt="">
+                          </div>
+                        </div>
+                     
+                    </div> </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <a data-toggle="modal"
+                    data-target="#exampleModalCenter" style="cursor:pointer;">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Categories</h5>
+                          <h2 class="mb-3 font-18">16</h2>
+                          <!--<p class="mb-0"><span class="col-green">18%</span>
+                            Increase</p>-->
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="{% static 'admin/img/banner/3.png'%}" alt="">
+                        </div>
+                      </div>
+                    </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <a href="{% url 'skill' %}" style="text-decoration:none;color: inherit;">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Skill Based</h5>
+                          <h2 class="mb-3 font-18">35</h2>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="{% static 'admin/img/banner/4.png'%}" alt="">
+                        </div>
+                      </div>
+                    </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--<div class="row">
+            <div class="col-12 col-sm-12 col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Chart</h4>
+                </div>
+                <div class="card-body">
+                  <div id="chart4" class="chartsh"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Chart</h4>
+                </div>
+                <div class="card-body">
+                  <div class="summary">
+                    <div class="summary-chart active" data-tab-group="summary-tab" id="summary-chart">
+                      <div id="chart3" class="chartsh"></div>
+                    </div>
+                    <div data-tab-group="summary-tab" id="summary-text">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Chart</h4>
+                </div>
+                <div class="card-body">
+                  <div id="chart2" class="chartsh"></div>
+                </div>
+              </div>
+            </div>
+          </div>-->
+          
+        </section>
+
+      </div>
+      <footer class="main-footer">
+        <div class="footer-left">
+          <a href=".net"></a></a>
+        </div>
+        <div class="footer-right">
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="{% static 'admin/js/app.min.js'%}"></script>
+  <!-- JS Libraies -->
+  <script src="{% static 'admin/bundles/apexcharts/apexcharts.min.js'%}"></script>
+  <!-- Page Specific JS File -->
+  {%
+  %}
+
+  <script>
+
+    // Sample list of data
+    let data = {{all_job|safe}}
+   {% comment %} var data = ["Apple", "Banana", "Orange", "Mango", "Pineapple", "Grapes"]; {% endcomment %}
+
+    // Get references to the input and results elements
+    var searchInput = document.getElementById('search');
+    var searchResults = document.getElementById('search-results');
+
+    // Event listener for keyup event on the search input
+    
+    searchInput.addEventListener('keyup', function () {
+      var searchTerm = searchInput.value.toLowerCase();
+      searchResults.innerHTML = '';
+      if (searchTerm.length < 1) {
+        searchResults.style.display = 'none';
+      }
+
+      // Filter the data based on the search term
+      var filteredData = data.filter(function (item) {
+        if (searchTerm.length > 1) {
+          searchResults.style.display = 'block';
+        }
+        
+        return item.toLowerCase().includes(searchTerm);
+      });
+
+      // Display the filtered results
+      filteredData.forEach(function (item) {
+        var li = document.createElement('li');
+        li.textContent = item;
+
+        // Event listener for click event on search results
+        li.addEventListener('click', function () {
+          // Clear previous selection
+          var selectedItems = searchResults.getElementsByClassName('selected');
+          Array.from(selectedItems).forEach(function (item) {
+            item.classList.remove('selected');
+          });
+
+          // Add selected class to clicked item
+          li.classList.add('selected');
+
+          
+          window.location.href = "{% url 'details' %}?param="+li.textContent;
+
+          // Perform the desired action with the selected item
+          searchInput.value = li.textContent;
+          searchResults.style.display = 'none';
+        });
+        searchResults.appendChild(li);
+      });
+    });
+  </script>
+  <!-- Template JS File -->
+  <script src="{% static 'admin/js/scripts.js'%}"></script>
+  <!-- Custom JS File -->
+  <script src="{% static 'admin/js/custom.js'%}"></script>
+</body>
+
+
+<!-- index.html  21 Nov 2019 03:47:04 GMT -->
+</html>
